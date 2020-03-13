@@ -22,7 +22,7 @@ public class Card {
     private ImageView imageView;
     private AnchorPane pane;
     private Boolean empty=false;
-    private Boolean ismoving=false;
+    private volatile Boolean ismoving=false;
 
     public Card(ImageView imageView,AnchorPane pane,int id,int x,int y) {
         this.imageView=imageView;
@@ -88,6 +88,25 @@ public class Card {
     }
     public ImageView getImageView() {
         return imageView;
+    }
+    public Timeline getShowingTimeline(){
+        Timeline timeline = new Timeline();
+        for (int i = 10; i > 0; i--) {
+            int finalI = i;
+            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(Math.abs(i - 11) * 50), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    String id = imageView.getId();
+                    imageView = new ImageView(IMG_PATH + Integer.toString(Id) + "/" + Integer.toString(finalI) + ".png");
+                    imageView.setId(id);
+                    imageView.setLayoutX(x);
+                    imageView.setLayoutY(y);
+                    pane.getChildren().set(Integer.parseInt(imageView.getId()), imageView);
+
+                }
+            }));
+        }
+        return timeline;
     }
 
     public void setEmpty() {

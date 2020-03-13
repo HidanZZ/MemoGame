@@ -1,6 +1,7 @@
 package sample.view;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -146,7 +147,7 @@ public class GamePage extends Stage{
     private void updateMouseListener(){
         for (Card c:cards
              ) {
-            if (!c.getHidden()){
+            if (!c.getHidden() || c.getEmpty()){
                 c.getImageView().setOnMouseClicked(mouseEvent -> {});
             }
         }
@@ -161,9 +162,15 @@ public class GamePage extends Stage{
                     if (!c.getIsmoving())
                     {if (choosing){
                         choosenCard2=c;
-                        choosenCard2.showCard();
-                        choosing=false;
-                    gameLogic();}
+                        Timeline show=choosenCard2.getShowingTimeline();
+                        if (choosenCard2.getHidden()){
+                            show.play();
+                            show.setOnFinished(actionEvent -> {
+                                c.setHidden(false);
+                                gameLogic();
+                            });
+                        }
+                    }
                     else {
                         choosenCard1=c;
                         choosenCard1.showCard();
@@ -181,10 +188,13 @@ public class GamePage extends Stage{
                 foundCardsIds.add(choosenCard1.getId());
                 updateImageView(choosenCard1.getId());
 
+
+
+
+
                 System.out.println(choosenCard2.toString());
                 System.out.println(choosenCard1.toString());
-                choosenCard1=null;
-                choosenCard2=null;
+                choosing=false;
 
             }else {
                 health--;
@@ -192,8 +202,7 @@ public class GamePage extends Stage{
                 choosenCard2.hideCard();
                 System.out.println(choosenCard2.toString());
                 System.out.println(choosenCard1.toString());
-                choosenCard1=null;
-                choosenCard2=null;
+                choosing=false;
             }
 
 
