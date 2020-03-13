@@ -187,21 +187,12 @@ public class GamePage extends Stage{
                 score++;
                 foundCardsIds.add(choosenCard1.getId());
                 updateImageView(choosenCard1.getId());
-
-
-
-
-
-                System.out.println(choosenCard2.toString());
-                System.out.println(choosenCard1.toString());
                 choosing=false;
 
             }else {
                 health--;
                 choosenCard1.hideCard();
                 choosenCard2.hideCard();
-                System.out.println(choosenCard2.toString());
-                System.out.println(choosenCard1.toString());
                 choosing=false;
             }
 
