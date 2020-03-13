@@ -30,4 +30,7 @@ public class MenuSubScene extends SubScene {
         transition.setToY(600);
         transition.play();
     }
+    public AnchorPane getPane(){
+        return (AnchorPane) this.getRoot();
+    }
 }

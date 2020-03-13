@@ -22,6 +22,14 @@ public class MenuButton extends Button {
         setPrefWidth(252);
 
     }
+    public MenuButton(String text,int height,int width){
+        setText(text);
+        setButtonFont();
+
+        setStyle(BUTTON_STYLE);
+        setPrefHeight(height);
+        setPrefWidth(width);
+    }
     private void setButtonFont(){
         try {
             setFont(Font.loadFont(new FileInputStream(FONT_PATH),33));
