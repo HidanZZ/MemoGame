@@ -46,6 +46,7 @@ public class MenuPage extends AnchorPane {
     private void createButtons(){
         createPlayButton();
         createMineSweeper();
+        createFlapyBird();
         createScoreButton();
         createExitButton();
         setButtonEffectEntered();
@@ -61,6 +62,14 @@ public class MenuPage extends AnchorPane {
     }
     public  void createMineSweeper(){
         MenuButton play=new MenuButton("MineSweeper");
+        menuButtons.add(play);
+        getChildren().add(play);
+        play.setLayoutX(370);
+        play.setLayoutY(100+menuButtons.size()*70);
+
+    }
+    public  void createFlapyBird(){
+        MenuButton play=new MenuButton("FlapyBird");
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
@@ -234,10 +243,10 @@ public class MenuPage extends AnchorPane {
                 playSubScene.showSubScene();
             }
         });
-        menuButtons.get(2).setOnMouseClicked(new EventHandler<MouseEvent>() {
+        menuButtons.get(3).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                scoreSubScene.showSubScene();
+              //  scoreSubScene.showSubScene();
             }
         });
 
