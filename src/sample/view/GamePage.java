@@ -1,33 +1,35 @@
 package sample.view;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import sample.model.Card;
-import sample.model.Difficulty;
-import sample.model.Grid;
+import javafx.util.Duration;
+import sample.model.*;
 
 import javax.swing.*;
+import javax.swing.text.StyledEditorKit;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.security.PrivateKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GamePage extends Stage{
     private AnchorPane gamePane;
+    private AnchorPane bottomPane;
+    private BorderPane borderPane;
     private Scene gameScene;
     private Grid choosenGrid;
     private Difficulty choosenDiff;
@@ -37,43 +39,105 @@ public class GamePage extends Stage{
     private Card choosenCard1;
     private Card choosenCard2;
     private List<Integer> foundCardsIds=new ArrayList<>();
-    private boolean isGameStarted=false;
-    private int health=5;
-    private int score=0;
+    private int health;
+    private int columns,rows;
+    private KTimer kTimer;
+    private TimerLabel label;
+    private List<Heart> hearts;
+    private Boolean gameOver=false;
+    private Boolean win=false;
+    private AnimationTimer animationTimer;
 
-    public GamePage(Grid choosenGrid){
+
+    public GamePage(Grid choosenGrid,Difficulty choosenDiff){
         this.choosenGrid=choosenGrid;
-        this.Height=4*185;
-        this.width=choosenGrid.getGrid()*185;
+        this.choosenDiff=choosenDiff;
+        switch (choosenGrid){
+            case small:
+                rows=4;
+                columns=3;
+                break;
+            case average:
+                rows=5;
+                columns=4;
+                break;
+            case big:
+                rows=5;
+                columns=6;
+        }
+        health=choosenDiff.getDiff();
+        this.Height=rows*180+100;
+        this.width=columns*185;
         gamePane=new AnchorPane();
-        gameScene=new Scene(gamePane,this.width,this.Height);
+        bottomPane=new AnchorPane();
+        bottomPane.setMaxWidth(rows*185);
+        bottomPane.setMaxHeight(100);
+        gamePane.setMaxHeight(rows*180);
+        gamePane.setMaxWidth(rows*185);
+        borderPane=new BorderPane();
+        borderPane.setCenter(gamePane);
+        label=new TimerLabel(this.width);
+
+        bottomPane.getChildren().add(label);
+        borderPane.setBottom(bottomPane);
+
+        gameScene=new Scene(borderPane,this.width,this.Height);
         this.setScene(gameScene);
         creategameGrid();
-        new AnimationTimer(){
-
+        createHealth();
+        Timeline timeline=new Timeline();
+        setBackGround();
+        animationTimer=new AnimationTimer() {
             @Override
             public void handle(long l) {
-
-
-
-
-                if (!isGameStarted){
-                    executAfterSeconds();
-                    isGameStarted=true;
-                }
+                updateLabel();
                 initmouseListener();
                 updateGamePane1();
                 updateMouseListener();
-
-
+                updateHealth();
+                updateGameStatus();
             }
+        };
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.millis(1000),actionEvent -> label.setText("5")),
+                new KeyFrame(Duration.millis(2000),actionEvent -> label.setText("4")),
+                            new KeyFrame(Duration.millis(3000),actionEvent -> label.setText("3")),
+                            new KeyFrame(Duration.millis(4000),actionEvent -> label.setText("2")),
+                            new KeyFrame(Duration.millis(5000),actionEvent -> label.setText("1"))
+                            );
+        timeline.play();
+                    timeline.setOnFinished(actionEvent -> {
+                        for (Card c : cards) {
+                            c.hideCard();
+                            kTimer=new KTimer();
+                            kTimer.startTimer(0);
+                            animationTimer.start();
+                        }});
 
-        }.start();
+
+
+
 
 
     }
     public void setBackGround(){
+        borderPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+    private void createHealth(){
+        hearts=new ArrayList<>();
+        for (int i = 0; i <health ; i++) {
+            Heart heart=new Heart(bottomPane,20+(i*65),10);
+            hearts.add(heart);
 
+        }
+    }
+    private void updateHealth(){
+
+        if (hearts.size()>health){
+            if (health!=0){
+            bottomPane.getChildren().set(hearts.size(),hearts.get(hearts.size()-1).getEmpty());
+            hearts=hearts.subList(0,hearts.size()-1);
+        }}
     }
     private void updateGamePane1(){
         for (Card c:cards
@@ -81,15 +145,7 @@ public class GamePage extends Stage{
             if (c.getEmpty())c.setEmpty();
         }
     }
-    private void updateGamePane(){
-        for (Integer i:foundCardsIds
-             ) {
-            for (Card c:cards
-                 ) {
-                if (c.getId()==i){c.setEmpty();}
-            }
-        }
-    }
+
     private  void updateImageView(int id){
         for (Card c:cards
              ) {
@@ -115,7 +171,7 @@ public class GamePage extends Stage{
     private int numberOfOccurences(int id){
         int i=0;
         for (Card c:cards
-             ) {
+        ) {
             if (c.getId()==id){
                 i++;
             }
@@ -129,12 +185,23 @@ public class GamePage extends Stage{
             return randomNumber;
         }else return getRandomNumber(i);
     }
+    private  void updateLabel(){
+
+        label=new TimerLabel(this.width);
+        label.setText(kTimer.getSspTime().getValue());
+        bottomPane.getChildren().set(0,label);
+        for (int i = 0; i <bottomPane.getChildren().size() ; i++) {
+            if (bottomPane.getChildren().get(i) instanceof ImageView){
+                System.out.println(i);
+            }
+        }
+    }
     public void creategameGrid(){
         cards=new ArrayList<>();
-        for (int i = 0; i <4 ; i++) {
-            for (int j = 0; j < choosenGrid.getGrid(); j++) {
+        for (int i = 0; i <rows ; i++) {
+            for (int j = 0; j < columns; j++) {
 
-                Card card = new Card(new ImageView(), gamePane, getRandomNumber(6), j * 180, i * 180);
+                Card card = new Card(new ImageView(), gamePane, getRandomNumber((rows*columns)/2), j * 180, i * 180);
 
                 gamePane.getChildren().add(card.getImageView());
                 cards.add(card);
@@ -142,6 +209,7 @@ public class GamePage extends Stage{
 
             }
         }
+
 
     }
     private void updateMouseListener(){
@@ -184,7 +252,6 @@ public class GamePage extends Stage{
     public void gameLogic(){
 
             if (choosenCard1.getId()==choosenCard2.getId()){
-                score++;
                 foundCardsIds.add(choosenCard1.getId());
                 updateImageView(choosenCard1.getId());
 
@@ -204,12 +271,36 @@ public class GamePage extends Stage{
                 System.out.println(choosenCard1.toString());
                 choosing=false;
             }
+            if (health<=0){
+                gameOver=true;
+            }
+            if (isWin()){
+                win=true;
+            }
 
 
 
 
     }
+    private void updateGameStatus(){
+        if (gameOver){
+            animationTimer.stop();
+            this.setScene(new Scene(new AnchorPane(),500,500));
+
+        }
+    }
+    private Boolean isWin(){
+        boolean tmp=true;
+        for (Card c:cards
+             ) {
+            if (!c.getEmpty()) tmp=false;
+        }
+        return tmp;
+    }
     public AnchorPane getGamePane() {
         return gamePane;
+    }
+    private void createGameOverPane(){
+
     }
 }

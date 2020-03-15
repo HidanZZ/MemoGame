@@ -62,7 +62,29 @@ public class ViewManager {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
-                GamePage gamePage=new GamePage(Grid.small);
+                GamePage gamePage=new GamePage(Grid.small,menuPage.getChoosenDifficulty());
+                gamePage.show();
+
+
+
+            }
+        });
+        menuPage.getGridButtons().get(1).setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mainStage.close();
+                GamePage gamePage=new GamePage(Grid.average,menuPage.getChoosenDifficulty());
+                gamePage.show();
+
+
+
+            }
+        });
+        menuPage.getGridButtons().get(2).setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mainStage.close();
+                GamePage gamePage=new GamePage(Grid.big,menuPage.getChoosenDifficulty());
                 gamePage.show();
 
 

@@ -233,6 +233,10 @@ public class MenuPage extends AnchorPane {
 
     }
 
+    public Difficulty getChoosenDifficulty() {
+        return choosenDifficulty;
+    }
+
     public List<MenuButton> getGridButtons() {
         return gridButtons;
     }
