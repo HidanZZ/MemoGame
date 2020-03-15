@@ -26,11 +26,7 @@ public class CardAnimation{
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     a.getChildren().setAll(new ImageView(IMAGE_PATH+Integer.toString(cardId)+"/"+Integer.toString(finalI)+".png"));
-                    for (Node i:a.getChildren()
-                         ) {
-                        ;
-                        System.out.println(i.getClass());
-                    }
+
                 }
             }));
         }

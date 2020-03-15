@@ -17,6 +17,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.FlapyBird.FlapyBird;
+import sample.MineSweeper.MineSweepper;
 import sample.controller.CardAnimation;
 import sample.controller.SpriteAnimation;
 import sample.model.Grid;
@@ -50,7 +52,7 @@ public class ViewManager {
         return menuPage;
     }
     private void setExit(){
-        menuPage.getMenuButtons().get(2).setOnMouseClicked(new EventHandler<MouseEvent>() {
+        menuPage.getMenuButtons().get(4).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
@@ -88,7 +90,23 @@ public class ViewManager {
                 gamePage.show();
 
 
+            }
+        });
 
+        menuPage.getMenuButtons().get(1).setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mainStage.close();
+                MineSweepper mineSweepper = new MineSweepper();
+                mineSweepper.show();
+            }
+        });
+        menuPage.getMenuButtons().get(2).setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mainStage.close();
+                FlapyBird flapyBird = new FlapyBird();
+                flapyBird.show();
             }
         });
     }
