@@ -74,7 +74,7 @@ public class KTimer {
         KTimer kTimer=new KTimer();
         kTimer.startTimer(0);
         while (true){
-            System.out.println(kTimer.getSspTime());
+
         }
     }
 }

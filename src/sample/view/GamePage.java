@@ -192,7 +192,7 @@ public class GamePage extends Stage{
         bottomPane.getChildren().set(0,label);
         for (int i = 0; i <bottomPane.getChildren().size() ; i++) {
             if (bottomPane.getChildren().get(i) instanceof ImageView){
-                System.out.println(i);
+
             }
         }
     }
