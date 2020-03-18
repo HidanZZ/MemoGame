@@ -221,29 +221,26 @@ public class GamePage extends Stage{
         }
     }
     private void initmouseListener(){
-        for (int i = 0; i <cards.size() ; i++) {
-            Card c=cards.get(i);
-
+        for (Card c : cards) {
             c.getImageView().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    if (!c.getIsmoving())
-                    {if (choosing){
-                        choosenCard2=c;
-                        Timeline show=choosenCard2.getShowingTimeline();
-                        if (choosenCard2.getHidden()){
-                            show.play();
-                            show.setOnFinished(actionEvent -> {
-                                c.setHidden(false);
-                                gameLogic();
-                            });
+                    if (!c.getIsmoving()) {
+                        if (choosing) {
+                            choosenCard2 = c;
+                            Timeline show = choosenCard2.getShowingTimeline();
+                            if (choosenCard2.getHidden()) {
+                                show.play();
+                                show.setOnFinished(actionEvent -> {
+                                    c.setHidden(false);
+                                    gameLogic();
+                                });
+                            }
+                        } else {
+                            choosenCard1 = c;
+                            choosenCard1.showCard();
+                            choosing = true;
                         }
-                    }
-                    else {
-                        choosenCard1=c;
-                        choosenCard1.showCard();
-                        choosing=true;
-                    }
                     }
                 }
             });
@@ -269,14 +266,29 @@ public class GamePage extends Stage{
                 win=true;
             }
 
-
-
-
     }
+    private Scene createGameOverPane(){
+        AnchorPane gameoverPane=new AnchorPane();
+        Scene scene=new Scene(gameoverPane,width,Height);
+        GameOverLabel gameOverLabel=new GameOverLabel("Game Over",width,Height,choosenGrid);
+        gameoverPane.setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));
+        gameoverPane.getChildren().add(gameOverLabel);
+        MenuButton returnButton=new MenuButton("Return");
+        returnButton.setLayoutX(Math.floorDiv(width,3)-30);
+        returnButton.setLayoutY(Height-300);
+        gameoverPane.getChildren().add(returnButton);
+        returnButton.setOnMouseClicked(mouseEvent -> {
+            new ViewManager().getMainStage().show();
+            this.close();
+
+        });
+        return scene;
+    }
+
     private void updateGameStatus(){
         if (gameOver){
             animationTimer.stop();
-            this.setScene(new Scene(new AnchorPane(),500,500));
+            this.setScene(createGameOverPane());
 
         }
     }
@@ -291,7 +303,5 @@ public class GamePage extends Stage{
     public AnchorPane getGamePane() {
         return gamePane;
     }
-    private void createGameOverPane(){
 
-    }
 }

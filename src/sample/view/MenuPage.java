@@ -19,7 +19,6 @@ public class MenuPage extends AnchorPane {
     private List<MenuButton> gridButtons=new ArrayList<>();
     private MenuSubScene playSubScene;
     private MenuSubScene scoreSubScene;
-    private Boolean isHidden=true;
     private Difficulty choosenDifficulty;
     private Grid choosenGrid;
 
@@ -53,11 +52,11 @@ public class MenuPage extends AnchorPane {
 
     }
     private void createPlayButton(){
-        MenuButton play=new MenuButton("Play");
+        MenuButton play=new MenuButton("Memo Game");
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(100+menuButtons.size()*70);
+        play.setLayoutY(60+menuButtons.size()*70);
 
     }
     public  void createMineSweeper(){
@@ -65,7 +64,7 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(100+menuButtons.size()*70);
+        play.setLayoutY(60+menuButtons.size()*70);
 
     }
     public  void createFlapyBird(){
@@ -73,7 +72,7 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(100+menuButtons.size()*70);
+        play.setLayoutY(60+menuButtons.size()*70);
 
     }
     private void createScoreButton(){
@@ -81,14 +80,14 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(score);
         getChildren().add(score);
         score.setLayoutX(370);
-        score.setLayoutY(100+menuButtons.size()*70);
+        score.setLayoutY(60+menuButtons.size()*70);
     }
     private void createExitButton(){
         MenuButton exit=new MenuButton("Exit");
         menuButtons.add(exit);
         getChildren().add(exit);
         exit.setLayoutX(370);
-        exit.setLayoutY(100+menuButtons.size()*70);
+        exit.setLayoutY(60+menuButtons.size()*70);
     }
     private  void createscoreSubScene(){
 
