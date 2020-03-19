@@ -46,6 +46,7 @@ public class MenuPage extends AnchorPane {
         createPlayButton();
         createMineSweeper();
         createFlapyBird();
+        createSpaceInvaders();
         createScoreButton();
         createExitButton();
         setButtonEffectEntered();
@@ -73,6 +74,14 @@ public class MenuPage extends AnchorPane {
         getChildren().add(play);
         play.setLayoutX(370);
         play.setLayoutY(60+menuButtons.size()*70);
+
+    }
+    public  void createSpaceInvaders(){
+        MenuButton play=new MenuButton("SpaceInvaders");
+        menuButtons.add(play);
+        getChildren().add(play);
+        play.setLayoutX(370);
+        play.setLayoutY(100+menuButtons.size()*70);
 
     }
     private void createScoreButton(){
@@ -242,7 +251,7 @@ public class MenuPage extends AnchorPane {
                 playSubScene.showSubScene();
             }
         });
-        menuButtons.get(3).setOnMouseClicked(new EventHandler<MouseEvent>() {
+        menuButtons.get(4).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
               //  scoreSubScene.showSubScene();

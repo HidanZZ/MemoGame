@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.FlapyBird.FlapyBird;
 import sample.MineSweeper.MineSweepper;
+import sample.SpaceInvaders.SpaceInvaders;
 import sample.controller.CardAnimation;
 import sample.controller.SpriteAnimation;
 import sample.model.Grid;
@@ -52,7 +53,7 @@ public class ViewManager {
         return menuPage;
     }
     private void setExit(){
-        menuPage.getMenuButtons().get(4).setOnMouseClicked(new EventHandler<MouseEvent>() {
+        menuPage.getMenuButtons().get(5).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
@@ -107,6 +108,15 @@ public class ViewManager {
                 mainStage.close();
                 FlapyBird flapyBird = new FlapyBird();
                 flapyBird.show();
+            }
+        });
+
+        menuPage.getMenuButtons().get(3).setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mainStage.close();
+                SpaceInvaders spaceInvaders = new SpaceInvaders();
+                spaceInvaders.show();
             }
         });
     }
