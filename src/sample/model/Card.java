@@ -41,7 +41,7 @@ public class Card {
         if (!isHidden){
         Timeline timeline=new Timeline();
         for (int i = 1; i <11 ; i++) {
-            int finalI = i;
+            final int finalI = i;
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(i * 50), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {

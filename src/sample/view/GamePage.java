@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.controller.PlayerDatabase;
 import sample.model.*;
 
 import javax.swing.*;
@@ -110,7 +111,7 @@ public class GamePage extends Stage{
                         for (Card c : cards) {
                             c.hideCard();
                             kTimer=new KTimer();
-                            kTimer.startTimer(0);
+                            kTimer.startTimer(-20);
                             animationTimer.start();
                         }});
 
@@ -266,11 +267,12 @@ public class GamePage extends Stage{
                 win=true;
             }
 
+
     }
     private Scene createGameOverPane(){
         AnchorPane gameoverPane=new AnchorPane();
         Scene scene=new Scene(gameoverPane,width,Height);
-        GameOverLabel gameOverLabel=new GameOverLabel("Game Over",width,Height,choosenGrid);
+        GameOverLabel gameOverLabel=new GameOverLabel("Game Over",width,Height,choosenGrid,Color.RED);
         gameoverPane.setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));
         gameoverPane.getChildren().add(gameOverLabel);
         MenuButton returnButton=new MenuButton("Return");
@@ -284,6 +286,52 @@ public class GamePage extends Stage{
         });
         return scene;
     }
+    private Scene createWinPane(){
+        AnchorPane gameoverPane=new AnchorPane();
+        Scene scene=new Scene(gameoverPane,width,Height);
+
+        GameOverLabel gameOverLabel=new GameOverLabel("You Win",width,Height,choosenGrid,Color.BLACK);
+        gameOverLabel.setLayoutX(gameOverLabel.getLayoutX()+50);
+        gameoverPane.setBackground(new Background(new BackgroundFill(Color.PALEGREEN,CornerRadii.EMPTY,Insets.EMPTY)));
+
+        InputLabel inputLabel=new InputLabel("Your name :");
+        inputLabel.setLayoutX(Math.floorDiv(width,2)-230);
+        inputLabel.setLayoutY(Height-500);
+
+        WinInput input=new WinInput();
+        input.setLayoutX(inputLabel.getLayoutX()+160);
+        input.setLayoutY(Height-500);
+
+        MenuButton submitButton=new MenuButton("Submit");
+        submitButton.setLayoutX(Math.floorDiv(width,2)-126);
+        submitButton.setLayoutY(Height-300);
+
+        submitButton.setOnMouseClicked(mouseEvent -> {
+            if (input.getText()!=null && !input.getText().trim().isEmpty()){
+                PlayerDatabase database=new PlayerDatabase();
+                switch (choosenDiff){
+                    case EASY:
+                        database.addRow(input.getText(),"easy",columns+"x"+rows,kTimer.getSspTime().getValue());
+                        break;
+                    case normal:
+                        database.addRow(input.getText(),"normal",columns+"x"+rows,kTimer.getSspTime().getValue());
+                        break;
+                    case hard:
+                        database.addRow(input.getText(),"hard",columns+"x"+rows,kTimer.getSspTime().getValue());
+                        break;
+                }
+                new ViewManager().getMainStage().show();
+                this.close();
+
+            }
+
+        });
+        gameoverPane.getChildren().add(gameOverLabel);
+        gameoverPane.getChildren().add(input);
+        gameoverPane.getChildren().add(inputLabel);
+        gameoverPane.getChildren().add(submitButton);
+        return scene;
+    }
 
     private void updateGameStatus(){
         if (gameOver){
@@ -291,12 +339,20 @@ public class GamePage extends Stage{
             this.setScene(createGameOverPane());
 
         }
+        if (win){
+            animationTimer.stop();
+            this.setScene(createWinPane());
+
+        }
     }
     private Boolean isWin(){
         boolean tmp=true;
         for (Card c:cards
              ) {
-            if (!c.getEmpty()) tmp=false;
+            if (!c.getEmpty()) {
+                tmp = false;
+                break;
+            }
         }
         return tmp;
     }

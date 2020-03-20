@@ -4,6 +4,7 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class MenuSubScene extends SubScene {
@@ -16,6 +17,16 @@ public class MenuSubScene extends SubScene {
         setLayoutX(250);
         setLayoutY(650);
     }
+
+    public MenuSubScene(Parent root) {
+        super(root, 500, 500);
+        prefHeight(500);
+        prefWidth(500);
+        getRoot().setStyle(BG_STYLE);
+        setLayoutX(250);
+        setLayoutY(650);
+    }
+
     public void showSubScene(){
         TranslateTransition transition=new TranslateTransition();
         transition.setDuration(Duration.seconds(0.3));
@@ -32,5 +43,8 @@ public class MenuSubScene extends SubScene {
     }
     public AnchorPane getPane(){
         return (AnchorPane) this.getRoot();
+    }
+    public VBox getPane2(){
+        return (VBox) this.getRoot();
     }
 }

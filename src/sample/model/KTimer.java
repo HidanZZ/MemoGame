@@ -6,10 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- *
- * @author D07114915
- */
+
 public class KTimer {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");

@@ -12,14 +12,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class GameOverLabel extends Label {
-    private final String FONT_PATH="src/sample/model/buttonStyle/acknowtt.ttf";
-    public GameOverLabel(String text,int screenWidth,int screenHeight,Grid grid) {
+    private final String FONT_PATH="src/sample/view/ressources/acknowtt.ttf";
+    public GameOverLabel(String text,int screenWidth,int screenHeight,Grid grid,Color color) {
         setText(text);
         setPrefHeight(Math.floorDiv(screenHeight,6));
         setPrefWidth(4*Math.floorDiv(screenWidth,6));
         setLayoutX(Math.floorDiv(screenWidth,6));
         setLayoutY(Math.floorDiv(screenHeight,6));
-        setTextFill(Color.RED);
+        setTextFill(color);
 
         switch (grid){
             case small:

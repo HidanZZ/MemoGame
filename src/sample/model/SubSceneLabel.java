@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class SubSceneLabel extends Label {
-    private final String FONT_PATH="src/sample/model/buttonStyle/acknowtt.ttf";
+    private final String FONT_PATH="src/sample/view/ressources/acknowtt.ttf";
 
     public SubSceneLabel(String text) {
         setText(text);

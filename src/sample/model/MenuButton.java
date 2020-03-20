@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MenuButton extends Button {
-    private final String FONT_PATH="src/sample/model/buttonStyle/acknowtt.ttf";
-    private final String BUTTON_STYLE="-fx-background-color:transparent;-fx-background-image: url('/sample/model/buttonStyle/button_small.png');";
+    private final String FONT_PATH="src/sample/view/ressources/acknowtt.ttf";
+    private final String BUTTON_STYLE="-fx-background-color:transparent;-fx-background-image: url('/sample/assets/Button/button_small.png');";
     public MenuButton(String text) {
         setText(text);
         setButtonFont();
@@ -32,9 +32,17 @@ public class MenuButton extends Button {
     }
     private void setButtonFont(){
         try {
-            setFont(Font.loadFont(new FileInputStream(FONT_PATH),33));
+            setFont(Font.loadFont(new FileInputStream(FONT_PATH),30));
         }catch (FileNotFoundException e){
             setFont(Font.font("Verdana",23));
+        }
+
+    }
+    public void setButtonFont(int i){
+        try {
+            setFont(Font.loadFont(new FileInputStream(FONT_PATH),i));
+        }catch (FileNotFoundException e){
+            setFont(Font.font("Verdana",i));
         }
 
     }

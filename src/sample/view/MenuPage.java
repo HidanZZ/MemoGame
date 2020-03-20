@@ -3,14 +3,27 @@ package sample.view;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.util.Callback;
 import sample.MineSweeper.MineSweepper;
+import sample.controller.PlayerDatabase;
 import sample.model.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +40,9 @@ public class MenuPage extends AnchorPane {
         String BG_STYLE = "-fx-background-image:url('/sample/view/ressources/bg.png')";
         setStyle(BG_STYLE);
         createButtons();
+        createscoreSubScene();
         createplaySubScene();
+        getChildren().add(scoreSubScene);
         getChildren().add(playSubScene);
         initMouseListener();
 
@@ -57,7 +72,7 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(60+menuButtons.size()*70);
+        play.setLayoutY(40+menuButtons.size()*70);
 
     }
     public  void createMineSweeper(){
@@ -65,15 +80,15 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(60+menuButtons.size()*70);
+        play.setLayoutY(40+menuButtons.size()*70);
 
     }
     public  void createFlapyBird(){
-        MenuButton play=new MenuButton("FlapyBird");
+        MenuButton play=new MenuButton("FlappyBird");
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(60+menuButtons.size()*70);
+        play.setLayoutY(40+menuButtons.size()*70);
 
     }
     public  void createSpaceInvaders(){
@@ -81,7 +96,7 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(play);
         getChildren().add(play);
         play.setLayoutX(370);
-        play.setLayoutY(100+menuButtons.size()*70);
+        play.setLayoutY(40+menuButtons.size()*70);
 
     }
     private void createScoreButton(){
@@ -89,21 +104,184 @@ public class MenuPage extends AnchorPane {
         menuButtons.add(score);
         getChildren().add(score);
         score.setLayoutX(370);
-        score.setLayoutY(60+menuButtons.size()*70);
+        score.setLayoutY(40+menuButtons.size()*70);
     }
     private void createExitButton(){
         MenuButton exit=new MenuButton("Exit");
         menuButtons.add(exit);
         getChildren().add(exit);
         exit.setLayoutX(370);
-        exit.setLayoutY(60+menuButtons.size()*70);
+        exit.setLayoutY(40+menuButtons.size()*70);
     }
     private  void createscoreSubScene(){
+        scoreSubScene=new MenuSubScene();
+        CloseButton closeButton=new CloseButton();
+        closeButton.setLayoutX(470);
+        closeButton.setLayoutY(5);
+        closeButton.setOnMouseClicked(mouseEvent -> scoreSubScene.hideSubScene());
+        scoreSubScene.getPane().getChildren().add(closeButton);
+        createScoresTableView();
+
+    }
+    private void createScoresTableView(){
+        TableView tableView=new TableView();
+
+        tableView.getStylesheets().add(getClass().getResource("ressources/style.css").toExternalForm());
+
+
+
+
+        TableColumn<Player,String> name=new TableColumn<>("NAME");
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
+            @Override
+            public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
+                return new TableCell<>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(isEmpty())
+                        {
+                            setText("");
+                        }
+                        else
+                        {
+
+                            try {
+                                setFont(Font.loadFont(new FileInputStream("src/view/ressources/acknowtt.ttf"),18));
+                            }catch (FileNotFoundException e){
+                                setFont(Font.font("Verdana",16));
+                            }
+                            setText(item);
+                        }
+
+                    }
+                };
+            }
+        });
+
+
+
+        TableColumn<Player,String> diff=new TableColumn<>("DIFFICULTY");
+        diff.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
+            @Override
+            public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
+                return new TableCell<>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(isEmpty())
+                        {
+                            setText("");
+                        }
+                        else
+                        {
+
+                            try {
+                                setFont(Font.loadFont(new FileInputStream("src/view/ressources/acknowtt.ttf"),18));
+                            }catch (FileNotFoundException e){
+                                setFont(Font.font("Verdana",16));
+                            }
+                            setText(item);
+                        }
+
+                    }
+                };
+            }
+        });
+        diff.setCellValueFactory(new PropertyValueFactory<>("diff"));
+
+
+
+        TableColumn<Player,String> grid=new TableColumn<>("GRID");
+        grid.setCellValueFactory(new PropertyValueFactory<>("grid"));
+        grid.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
+            @Override
+            public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
+                return new TableCell<>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(isEmpty())
+                        {
+                            setText("");
+                        }
+                        else
+                        {
+
+                            try {
+                                setFont(Font.loadFont(new FileInputStream("src/view/ressources/acknowtt.ttf"),18));
+                            }catch (FileNotFoundException e){
+                                setFont(Font.font("Verdana",16));
+                            }
+                            setText(item);
+                        }
+
+                    }
+                };
+            }
+        });
+
+
+
+        TableColumn<Player,String> time=new TableColumn<>("TIME");
+        time.setCellValueFactory(new PropertyValueFactory<>("time"));
+        time.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
+            @Override
+            public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
+                return new TableCell<>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(isEmpty())
+                        {
+                            setText("");
+                        }
+                        else
+                        {
+
+                            try {
+                                setFont(Font.loadFont(new FileInputStream("src/view/ressources/acknowtt.ttf"),18));
+                            }catch (FileNotFoundException e){
+                                setFont(Font.font("Verdana",16));
+                            }
+                            setText(item);
+                        }
+
+                    }
+                };
+            }
+        });
+
+
+
+        tableView.getColumns().addAll(name,diff,grid,time);
+        tableView.setPrefWidth(480);
+        tableView.setLayoutX(10);
+        tableView.setLayoutY(40);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        scoreSubScene.getPane().getChildren().add(tableView);
+
+
+        PlayerDatabase database=new PlayerDatabase();
+
+        try {
+            database.connect();
+            Statement stmt=database.getConnection().createStatement();
+            ResultSet rs=stmt.executeQuery("select name,difficulty,grid,time from players");
+            while (rs.next()) {
+                Player p=new Player(rs.getString("name"),rs.getString("difficulty"),rs.getString("grid"),rs.getString("time")) ;
+                tableView.getItems().add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
     private  void createplaySubScene(){
         playSubScene=new MenuSubScene();
         createDiffChooser();
+
     }
 
     private void createDiffChooser(){
@@ -134,6 +312,7 @@ public class MenuPage extends AnchorPane {
         MenuButton returnButton=new MenuButton("Return",50,250);
         returnButton.setLayoutX(200);
         returnButton.setLayoutY(415);
+        returnButton.setButtonFont(33);
         returnButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -186,6 +365,7 @@ public class MenuPage extends AnchorPane {
         MenuButton returnButton=new MenuButton("Return",50,250);
         returnButton.setLayoutX(200);
         returnButton.setLayoutY(415);
+        returnButton.setButtonFont(33);
         returnButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -254,7 +434,7 @@ public class MenuPage extends AnchorPane {
         menuButtons.get(4).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-              //  scoreSubScene.showSubScene();
+              scoreSubScene.showSubScene();
             }
         });
 
