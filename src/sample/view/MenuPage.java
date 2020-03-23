@@ -290,9 +290,9 @@ public class MenuPage extends AnchorPane {
         MenuButton easyButton=new MenuButton("easy");
         MenuButton normalButton=new MenuButton("normal");
         MenuButton hardButton=new MenuButton("hard");
-        MenuButton smallGridButton=new MenuButton("5x5");
-        MenuButton averageGridButton=new MenuButton("6x6");
-        MenuButton bigGridButton=new MenuButton("7x7");
+        MenuButton smallGridButton=new MenuButton("3x4");
+        MenuButton averageGridButton=new MenuButton("4x5");
+        MenuButton bigGridButton=new MenuButton("6x5");
         gridButtons.add(smallGridButton);
         gridButtons.add(averageGridButton);
         gridButtons.add(bigGridButton);
