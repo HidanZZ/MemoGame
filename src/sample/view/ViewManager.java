@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.FlapyBird.FlapyBird;
-import sample.MineSweeper.MineSweepper;
+import sample.MineSweeperGame.MineSweeperLauncher;
 import sample.SpaceInvaders.SpaceInvaders;
 import sample.model.Grid;
 
@@ -82,8 +82,8 @@ public class ViewManager {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
-                MineSweepper mineSweepper = new MineSweepper();
-                mineSweepper.show();
+                mainStage = new Stage();
+                MineSweeperLauncher mineSweeperLauncher = new MineSweeperLauncher(mainStage);
             }
         });
         menuPage.getMenuButtons().get(2).setOnMouseClicked(new EventHandler<MouseEvent>() {

@@ -15,7 +15,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
-import sample.MineSweeper.MineSweepper;
 import sample.controller.PlayerDatabase;
 import sample.model.*;
 
@@ -136,7 +135,7 @@ public class MenuPage extends AnchorPane {
         name.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
             @Override
             public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
-                return new TableCell<>(){
+                return new TableCell<Player,String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -166,7 +165,7 @@ public class MenuPage extends AnchorPane {
         diff.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
             @Override
             public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
-                return new TableCell<>(){
+                return new TableCell<Player,String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -198,7 +197,7 @@ public class MenuPage extends AnchorPane {
         grid.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
             @Override
             public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
-                return new TableCell<>(){
+                return new TableCell<Player,String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -229,7 +228,7 @@ public class MenuPage extends AnchorPane {
         time.setCellFactory(new Callback<TableColumn<Player, String>, TableCell<Player, String>>() {
             @Override
             public TableCell<Player, String> call(TableColumn<Player, String> playerStringTableColumn) {
-                return new TableCell<>(){
+                return new TableCell<Player,String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
