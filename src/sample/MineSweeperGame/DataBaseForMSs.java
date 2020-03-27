@@ -11,7 +11,7 @@ public class DataBaseForMSs {
             Connection c = null;
             Statement stmt = null;
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:MineSweeperDB.db");
+            c = DriverManager.getConnection("jdbc:sqlite:src/sample/model/playersScores.db");
             c.setAutoCommit(true);
             stmt = c.createStatement();
 
