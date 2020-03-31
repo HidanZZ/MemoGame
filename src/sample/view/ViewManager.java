@@ -4,7 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sample.FlapyBird.FlapyBird;
+import sample.FlappyBirdV2.FlippyBirdLauncher;
 import sample.MineSweeperGame.MineSweeperLauncher;
 import sample.SpaceInvaders.SpaceInvaders;
 import sample.model.Grid;
@@ -90,8 +90,8 @@ public class ViewManager {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
-                FlapyBird flapyBird = new FlapyBird();
-                flapyBird.show();
+                mainStage = new Stage();
+                FlippyBirdLauncher birdLauncher = new FlippyBirdLauncher(mainStage);
             }
         });
 
