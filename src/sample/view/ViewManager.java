@@ -2,6 +2,7 @@ package sample.view;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.FlappyBirdV2.FlippyBirdLauncher;
@@ -82,16 +83,28 @@ public class ViewManager {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
-                mainStage = new Stage();
-                MineSweeperLauncher mineSweeperLauncher = new MineSweeperLauncher(mainStage);
+                Stage mainStage1 = new Stage();
+                MineSweeperLauncher mineSweeperLauncher = new MineSweeperLauncher(mainStage1);
+                mainStage1.getScene().setOnKeyReleased(keyEvent -> {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE){
+                        mainStage1.close();
+                        mainStage.show();
+                    }
+                });
             }
         });
         menuPage.getMenuButtons().get(2).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 mainStage.close();
-                mainStage = new Stage();
-                FlippyBirdLauncher birdLauncher = new FlippyBirdLauncher(mainStage);
+                Stage  mainStage1 = new Stage();
+                FlippyBirdLauncher birdLauncher = new FlippyBirdLauncher(mainStage1);
+                mainStage1.getScene().setOnKeyReleased(keyEvent -> {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE){
+                    mainStage1.close();
+                    mainStage.show();
+                    }
+                });
             }
         });
 
@@ -101,6 +114,7 @@ public class ViewManager {
                 mainStage.close();
                 SpaceInvaders spaceInvaders = new SpaceInvaders();
                 spaceInvaders.show();
+
             }
         });
     }
