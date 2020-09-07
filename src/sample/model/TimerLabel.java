@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class TimerLabel extends Label {
-    private final String FONT_PATH="src/sample/view/ressources/acknowtt.ttf";
+    private final String FONT_PATH= "src/sample/view/ressources/acknowtt.ttf";
 
     public TimerLabel(int width) {
         setLabelFont();

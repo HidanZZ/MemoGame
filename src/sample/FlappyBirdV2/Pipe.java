@@ -14,7 +14,7 @@ public class Pipe {
     ImageView pipeCDown;
 
     public Pipe(Pane root , int x ) {
-        makePipe("src/sample/FlappyBirdV2/imgs/pipe.png" , "src/sample/FlappyBirdV2/imgs/pipeC.png" , x );
+        makePipe("src/sample/FlappyBirdV2/imgs/pipe.png", "src/sample/FlappyBirdV2/imgs/pipeC.png", x );
         root.getChildren().add(this.pipeDown);
         root.getChildren().add(this.pipeUp);
         root.getChildren().add(this.pipeCUp);

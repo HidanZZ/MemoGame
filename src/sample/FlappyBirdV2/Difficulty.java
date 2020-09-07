@@ -38,8 +38,8 @@ public class Difficulty {
     Image birdYA1;
     Image birdYA2;
     Image birdA1;
-    Image buirdA1;
     Image birdA2;
+    Image buirdA1;
     Image buirdA2;
     AnimationTimer timerForBack ;
     RadioButton  chosenBird1 ;
@@ -81,9 +81,9 @@ public class Difficulty {
             backgroundSupport = new ImageView(new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/background_day.png")));
             sun = new ImageView(new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/sun.png")));
             logo = new ImageView(new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/logo.png")));
-            bird = new ImageView(new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdYA1.png")));
-            birdTypeA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdYA1.png")) ;
-            birdTypeA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdYA2.png")) ;
+            bird = new ImageView(new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdY1.png")));
+            birdTypeA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdY1.png")) ;
+            birdTypeA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdY2.png")) ;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -145,13 +145,13 @@ public class Difficulty {
     }
     public  void decChamp(){
         try {
-            birdYA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdYA1.png"));
-            birdA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdA1.png"));
-            buirdA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/buirdA1.png"));
+            birdYA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdY1.png"));
+            buirdA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdB1.png"));
+            birdA1 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdR1.png"));
 
-            birdYA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdYA2.png"));
-            birdA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdA2.png"));
-            buirdA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/buirdA2.png"));
+            birdYA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdY2.png"));
+            buirdA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdB2.png"));
+            birdA2 = new Image(new FileInputStream("src/sample/FlappyBirdV2/imgs/birdR2.png"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -218,7 +218,7 @@ public class Difficulty {
             chosenBird3.setSelected(false);
             birdTypeA1 = birdA1;
             birdTypeA2 = birdA2;
-            birdType = "bird";
+            birdType = "birdR";
         });
         bird3.setOnMouseClicked(mouseEvent -> {
             chosenBird1.setSelected(false);
@@ -226,7 +226,7 @@ public class Difficulty {
             chosenBird3.setSelected(true);
             birdTypeA1 = buirdA1;
             birdTypeA2 = buirdA2;
-            birdType = "buird";
+            birdType = "birdB";
         });
         chosenBird1.setOnAction(actionEvent -> {
             birdTypeA1 = birdYA1;
@@ -236,12 +236,12 @@ public class Difficulty {
         chosenBird2.setOnAction(actionEvent -> {
             birdTypeA1 = birdA1;
             birdTypeA2 = birdA2;
-            birdType = "bird";
+            birdType = "birdR";
         });
         chosenBird3.setOnAction(actionEvent -> {
             birdTypeA1 = buirdA1;
             birdTypeA2 = buirdA2;
-            birdType = "buird";
+            birdType = "birdB";
         });
     }
     public void backgroundChose(){

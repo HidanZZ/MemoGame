@@ -342,7 +342,7 @@ public class MenuPage extends AnchorPane {
             }
         });
         for (MenuButton mb:diffButtons
-             ) {
+                ) {
             mb.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -385,7 +385,7 @@ public class MenuPage extends AnchorPane {
         playSubScene.getPane().getChildren().add(returnButton);
 
         for (MenuButton mb:gridButtons
-             ) {
+                ) {
             mb.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -405,7 +405,7 @@ public class MenuPage extends AnchorPane {
     }
     private void setButtonEffectEntered(){
         for (MenuButton mb:menuButtons
-        ) {
+                ) {
             mb.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -433,7 +433,7 @@ public class MenuPage extends AnchorPane {
         menuButtons.get(4).setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-              scoreSubScene.showSubScene();
+                scoreSubScene.showSubScene();
             }
         });
 

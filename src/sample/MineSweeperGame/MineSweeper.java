@@ -6,11 +6,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -41,6 +44,11 @@ public class MineSweeper extends Stage {
     int flagNbr;
     AnimationTimer timerFlagNbr;
     AnimationTimer timerForShowNeighbor;
+    MediaPlayer gameOverSound ;
+    MediaPlayer gameWinSound ;
+    MediaPlayer flagSound ;
+    MediaPlayer unflagSound ;
+    MediaPlayer wrongSound ;
     DataBaseForMSs scoreRecord ;
     String name ;
     public MineSweeper(double width , double cellNbrs , double nbrBomb , double rand , String name) {
@@ -48,6 +56,11 @@ public class MineSweeper extends Stage {
         nbrBombs = nbrBomb ;
         this.rand = rand ;
         this.name = name ;
+        gameOverSound = new MediaPlayer(new Media(new File("src/sample/MineSweeperGame/audio/gameOver.wav").toURI().toString()));
+        gameWinSound = new MediaPlayer(new Media(new File("src/sample/MineSweeperGame/audio/gameWin.wav").toURI().toString()));
+        unflagSound = new MediaPlayer(new Media(new File("src/sample/MineSweeperGame/audio/unflag.wav").toURI().toString()));
+        flagSound = new MediaPlayer(new Media(new File("src/sample/MineSweeperGame/audio/flag.wav").toURI().toString()));
+        wrongSound = new MediaPlayer(new Media(new File("src/sample/MineSweeperGame/audio/wrong.wav").toURI().toString()));
         nbrBombsWanted = nbrBomb ;
         HEIGHT = WIDTH + 50 ;
         cellNbr =  cellNbrs ;
@@ -160,12 +173,16 @@ public class MineSweeper extends Stage {
                             if (!cell.isExposed) {
                                 if (!cell.flagged && !cell.bombIsVisible) {
                                     cell.flagIcon.setVisible(true);
+                                    flagSound.stop();
+                                    flagSound.play();
                                     cell.flagged = true;
                                     flagNbr--;
                                     score.nbrFlags.setText(flagNbr + "");
                                 } else if (cell.flagged && !cell.bombIsVisible) {
                                     cell.flagIcon.setVisible(false);
                                     cell.flagged = false;
+                                    unflagSound.stop();
+                                    unflagSound.play();
                                     flagNbr++;
                                     score.nbrFlags.setText(flagNbr + "");
                                 }
@@ -212,6 +229,7 @@ public class MineSweeper extends Stage {
             if (!cell.flagged) {
                 Color col = Color.color(Math.random(), Math.random(), Math.random(), 0.7);
                 cell.bomb.setVisible(true);
+                wrongSound.play();
                 cell.bomb.setFill(col.darker());
                 cell.cell.setFill(col);
                 cell.color = col;
@@ -286,9 +304,11 @@ public class MineSweeper extends Stage {
         Text scoreText;
         if (situation) {
             scoreText = new Text(("00".format("%03d" , score.timeScore)));
+            gameWinSound.play();
             scoreRecord = new DataBaseForMSs(name , score.timeScore  , true ,(int) (nbrBombsWanted-nbrBombs) );
         }else {
             scoreText = new Text("000");
+            gameOverSound.play();
             scoreRecord = new DataBaseForMSs(name , 0 , false ,(int) (nbrBombsWanted-nbrBombs)  );
         }
         Text bestScoreText = new Text(("00".format("%03d" , scoreRecord.highScore)));
@@ -337,9 +357,9 @@ public class MineSweeper extends Stage {
         layerBlack.setFill(Color.BLACK);
         layerBlack.setOpacity(0.2);
         //add restart button
-        restartBRec.setOnMouseClicked(mouseEvent -> restart = true);
-        restartIcon.setOnMouseClicked(mouseEvent -> restart = true);
-        restartText.setOnMouseClicked(mouseEvent -> restart = true);
+        restartBRec.setOnMouseClicked(mouseEvent ->{ restart = true ; gameOverSound.stop(); gameWinSound.stop();});
+        restartIcon.setOnMouseClicked(mouseEvent ->{ restart = true ; gameOverSound.stop(); gameWinSound.stop();});
+        restartText.setOnMouseClicked(mouseEvent -> { restart = true ; gameOverSound.stop(); gameWinSound.stop();});
         restartBRec.setArcWidth(20);
         restartBRec.setArcHeight(20);
         restartBRec.setFill(Color.rgb(74, 117, 44));
@@ -361,8 +381,8 @@ public class MineSweeper extends Stage {
         backToDifT.setScaleX(1.7);
         backToDifT.setScaleY(1.7);
         backToDifT.setFill(Color.WHITE);
-        backToDifB.setOnMouseClicked(mouseEvent -> backToDif = true);
-        backToDifT.setOnMouseClicked(mouseEvent -> backToDif = true);
+        backToDifB.setOnMouseClicked(mouseEvent -> { backToDif = true ;  gameOverSound.stop(); gameWinSound.stop();});
+        backToDifT.setOnMouseClicked(mouseEvent -> { backToDif = true; gameOverSound.stop(); gameWinSound.stop();});
         //in root to display
         root.getChildren().add(layerBlack);
         root.getChildren().add(finalScore);
@@ -376,6 +396,7 @@ public class MineSweeper extends Stage {
         root.getChildren().add(restartText);
         root.getChildren().add(backToDifB);
         root.getChildren().add(backToDifT);
+
 
     }
 

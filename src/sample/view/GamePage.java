@@ -3,28 +3,18 @@ package sample.view;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.controller.PlayerDatabase;
 import sample.model.*;
 
-import javax.swing.*;
-import javax.swing.text.StyledEditorKit;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.security.PrivateKey;
 import java.util.*;
 
 public class GamePage extends Stage{
